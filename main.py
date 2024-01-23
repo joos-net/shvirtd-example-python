@@ -18,10 +18,8 @@ password=db_password,
 )
 mycursor = mydb.cursor()
 
-# # SQL-запрос для создания базы в БД
 mycursor.execute(f"""CREATE DATABASE IF NOT EXISTS {db_database}""")
 
-# Подключение к базе данных MySQL
 db = mysql.connector.connect(
 host=db_host,
 user=db_user,
@@ -30,7 +28,6 @@ database=db_database,
 autocommit=True )
 cursor = db.cursor()
 
-# SQL-запрос для создания таблицы в БД
 create_table_query = f"""
 CREATE TABLE IF NOT EXISTS {db_database}.{db_table} (
 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -42,10 +39,8 @@ cursor.execute(create_table_query)
 
 @app.route('/')
 def index():
-    # Получение IP-адреса пользователя
     ip_address = request.headers.get('X-Forwarded-For')
 
-    # Запись в базу данных
     now = datetime.now()
     current_time = now.strftime("%Y-%m-%d %H:%M:%S")
     query = f"""INSERT INTO {db_table} (request_date, request_ip) VALUES (%s, %s)"""
@@ -54,7 +49,6 @@ def index():
     db.commit()
 
     return f'TIME: {current_time}, IP: {ip_address}'
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
