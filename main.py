@@ -14,7 +14,7 @@ db_table=os.environ.get('DB_TABLE')
 mydb = mysql.connector.connect(
 host=db_host,
 user=db_user,
-password=db_password,
+password=db_password
 )
 mycursor = mydb.cursor()
 
